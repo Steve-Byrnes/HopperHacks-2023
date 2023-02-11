@@ -39,21 +39,16 @@ const updateTest = asyncHandler(async (req, res) => {
         throw new Error('Test not found')
     }
 
-    const updatedTest = await Test.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    const updatedTest = await Test.findByIdAndUpdate(req.params.id, req.body, {new: false})
     res.status(200).json(updatedTest)
 })
 
-// Description: Delete Twats
+// Description: Delete Test
 // Route: DELETE /api/twats/:id
 // Access: Private
 const deleteTest = asyncHandler(async (req, res) => {
 
-    const tes = await Test.findById(req.params.id)
-
-    if (!goal) {
-        res.status(400)
-        throw new Error('Test not found')
-    }
+    const test = await Test.findById(req.params.id)
 
     await test.remove()
     res.status(200).json({id: req.params.id})
