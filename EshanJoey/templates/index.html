@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
+    <title>Document</title>
+    
+</head>
+<body>
+    
+    <p id = "x">0</p>
+    <p id = 'y'>0</p>
+    <p id = 'z'>0</p>
+</body>
+<script>
+        document.getElementById("x").innerHTML = 2
+        var vx = 0.0; // Velocity x and y
+        var vy = 0.0;
+        var updateRate = 1/60; // Sensor refresh rate
+        
+    //     function getAccel(){
+    // DeviceMotionEvent.requestPermission().then(response => {
+    //     if (response == 'granted') {
+    //     // Add a listener to get smartphone acceleration 
+    //         // in the XYZ axes (units in m/s^2)
+    //         window.addEventListener('devicemotion', (event) => {
+        DeviceMotionEvent.requestPermission()
+            .then(response => {
+            if (response == 'granted') {
+                window.addEventListener('devicemotion', (e) => {
+                console.log(e.acceleration.x)
+                })
+            }
+            })
+            .catch(console.error)
+            
+    
+                //console.log(x, y, z)
+            //});
+       // Add a listener to get smartphone orientation 
+           // in the alpha-beta-gamma axes (units in degrees)
+            // window.addEventListener('deviceorientation',(event) => {
+            //     console.log(event);
+            // });
+       // }
+        // frontToBack_degrees = event.beta;
+        // leftToRight_degrees = event.gamma;
+        // vx = vx + leftToRight_degrees * updateRate*2; 
+        // vy = vy + frontToBack_degrees * updateRate;
+    // });
+    // }
+    // getAccel()
+    </script>
+</html>
