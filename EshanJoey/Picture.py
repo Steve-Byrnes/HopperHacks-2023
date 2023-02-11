@@ -1,24 +1,10 @@
-import requests
-import cv2
-from PIL import Image
-from io import BytesIO
-import time
+import sys, pygame
+pygame.init()
 
+size = width, height = 320, 240
+speed = [2, 2]
+black = 0, 0, 0
 
+screen = pygame.display.set_mode(size)
 
-def getFrame():
-    timeNow = str(time.time())
-    camera = requests.get("https://webcams.nyctmc.org/api/cameras/c34ca47e-e375-4b9f-a8d7-f9737566b783/image?t=" + timeNow, verify=False)
-
-    return Image.open(BytesIO(camera.content))
-    #print(type(img))
-    
-    
-
-while True:
-       
-    # Get a numpy array to display from the simulation
-    npimage=getFrame()
-
-    cv2.imshow('image',npimage)
-    cv2.waitKey(1)
+pygame.draw.rect(screen, (0,0,0), (x-2,y-2,155,155), 1)
