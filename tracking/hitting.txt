@@ -1,0 +1,6 @@
+How to Track Hitting the Ball:
+
+Factors:
+    1) Distance
+    2) Velocity
+    3) Angle
