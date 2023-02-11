@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var vx = 0.0; // Velocity x and y
+        var vy = 0.0;
+        var updateRate = 1/60; // Sensor refresh rate
+        
+        function getAccel(){
+    DeviceMotionEvent.requestPermission().then(response => {
+        if (response == 'granted') {
+        // Add a listener to get smartphone acceleration 
+            // in the XYZ axes (units in m/s^2)
+            window.addEventListener('devicemotion', (event) => {
+                console.log(event);
+            });
+       // Add a listener to get smartphone orientation 
+           // in the alpha-beta-gamma axes (units in degrees)
+            window.addEventListener('deviceorientation',(event) => {
+                console.log(event);
+            });
+        }
+        // frontToBack_degrees = event.beta;
+        // leftToRight_degrees = event.gamma;
+        // vx = vx + leftToRight_degrees * updateRate*2; 
+        // vy = vy + frontToBack_degrees * updateRate;
+    });
+}
+    </script>
+</head>
+<body>
+    
+    <p>hi</p>
+</body>
+</html>
