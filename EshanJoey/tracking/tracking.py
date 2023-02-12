@@ -95,7 +95,7 @@ class tracking:
                             pass
 
                         hit_dic = {
-                            "time": datetime.now().strftime("%H:%M:%S"),
+                            "time": datetime.now().strftime("%H:%M:%S.%f"),
                             "triangle": (cls.perimeter(middle, pinky, thumb) * 10) **2,
                             "x": ballX * image_width,
                             "y": ballY * image_height
