@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
-app.use('/api/tests', require('./routes/testRoutes'))
+app.use('/api/swings', require('./routes/swingRoutes'))
 
 app.use(errorHandler)
 

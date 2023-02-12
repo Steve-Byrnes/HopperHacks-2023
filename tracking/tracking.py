@@ -4,6 +4,7 @@ import time
 import math
 from datetime import datetime
 import cvzone
+import threading
 
 class tracking:
 
@@ -41,10 +42,8 @@ class tracking:
 
     @classmethod
     def trackHit(cls):
-
-        t_end = time.time() + 60
+        t_end = time.time() + 5
         trajectory = []
-        countdown = int(datetime.now().strftime("%S"))
 
         while time.time() < t_end:
             success, img = cls.cap.read()
@@ -72,15 +71,6 @@ class tracking:
 
                     ballX = handLms.landmark[cls.mpHands.HandLandmark.MIDDLE_FINGER_MCP].x
                     ballY = handLms.landmark[cls.mpHands.HandLandmark.MIDDLE_FINGER_MCP].y
-
-                    # hit_dic = {
-                    #     "time": datetime.now().strftime("%H:%M:%S"),
-                    #     "triangle": (cls.perimeter(middle, pinky, thumb) * 10) **2,
-                    #     "x": ballX,
-                    #     "y": ballY
-                    # }
-
-                    # trajectory.append(hit_dic)
 
                     point_list = [handLms.landmark[cls.mpHands.HandLandmark.MIDDLE_FINGER_MCP]]
 
@@ -110,17 +100,9 @@ class tracking:
                             "x": cx,
                             "y": cy
                         }
-
                         trajectory.append(hit_dic)
 
-                        
-            # cTime = time.time()
-            # fps = 1/(cTime-pTime)
-            # pTime = cTime
-            if (int(datetime.now().strftime("%S")) != countdown):
-                countdown = int(datetime.now().strftime("%S"))
-
-            cv2.putText(img, 'Hello Eshan' , (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
+            # cv2.putText(img, 'Hello Nate' , (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
 
             cv2.imshow("Image", img)
             cv2.waitKey(1)
@@ -175,7 +157,11 @@ class tracking:
         temp = [start_point['x'], end_point['y']]
         distTemp = cls.dist(starting, temp)
 
-        angle = math.acos(distTemp / distPath)   
-        return (angle * 180) / math.pi
+        angle = math.acos(distTemp / distPath)
+
+        if (end_point['x'] > start_point['x']):  
+            return -1 * (angle * 180) / math.pi
+        else:
+            return (angle * 180) / math.pi
 
         
