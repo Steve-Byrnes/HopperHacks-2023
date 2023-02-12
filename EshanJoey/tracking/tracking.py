@@ -5,6 +5,7 @@ import math
 from datetime import datetime
 import cvzone
 import threading
+import dbConnect
 
 class tracking:
 
@@ -174,5 +175,37 @@ class tracking:
             return -1 * (angle * 180) / math.pi
         else:
             return (angle * 180) / math.pi
+
+    @staticmethod
+    def get_time_change(p1, p2):
+        p1_time_int = int(datetime.strptime(p1['time'], '%H:%M:%S.%f').microsecond)
+        p2_time_int = int(datetime.strptime(p2['time'], '%H:%M:%S.%f').microsecond)
+        return abs(p1_time_int - p2_time_int)
+
+
+    @classmethod
+    def get_power(cls, p1, p2):
+        tri_ratio = abs(p1['tri'] - p2['tri'])
+        return (tri_ratio / cls.get_time_change(p1, p2)) * 10000
+
+    @classmethod
+    def store_swing(cls, user, start_x, start_y, end_x, end_y, duration, angle, power):
+        body = {
+            "user": user,
+            "start_x": start_x,
+            "start_y": start_y,
+            "end_x": end_x,
+            "end_y": end_y,
+            "duration": duration,
+            "angle": angle,
+            "power": power
+        }
+        try:
+            dbConnect.setSwing(body)
+        except:
+            print('Error: Cannot query database')
+        
+
+
 
         
