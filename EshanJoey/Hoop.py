@@ -2,9 +2,9 @@
 class Hoop:
     def __init__(self, canvas):
         self.canvas = canvas
-        self.height = 60
-        self.pipeWidth = 7
-        self.width = 45
+        self.height = 65
+        self.pipeWidth = 8
+        self.width = 50
         
     def draw_hoop(self, x, y, color):
         #f.canvas.create_line(x,y,x,y - self.height*.8, fill="white", width=self.pipeWidth,outline='black')

@@ -30,6 +30,10 @@ ballColor = True
 score = 0
 scoreText = canvas.create_text(700, 650, text="Score: 0", fill="black", font=('Helvetica 30 bold'))
 
+hits = 0
+hitsText = canvas.create_text(700, 600, text="Hits: 0", fill="black", font=('Helvetica 30 bold'))
+
+
 def move_ball(power:float, angle:int) -> None: 
     gotPoint = False
     global ballColor
@@ -162,6 +166,7 @@ def getPower(path):
     return power
 
 def task():
+    global hits
     while True:
         width, track_data = tracking.trackHit()
         path = tracking.get_duration(track_data)
@@ -176,9 +181,8 @@ def task():
         print("t2",path[1]['time'])
         power = getPower(path)
         print("power:", power)
-        #print("My Angle: ",myAngle)
-        #angle = (-1* tracking.get_angle(path[0], path[1])) + 90
-        #print("Angle:", angle)
+        hits += 1
+        canvas.itemconfig(hitsText, text= f"Hits: {hits}")
         if path[0]['time'] < path[1]['time']:
             myAngle += 180
         move_ball(power, myAngle)
