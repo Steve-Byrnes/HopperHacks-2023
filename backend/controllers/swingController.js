@@ -16,6 +16,9 @@ const getSwings = asyncHandler(async (req, res) => {
 // Access: Private
 const setSwing = asyncHandler(async (req, res) => {
 
+    console.log(req.body.user)
+    console.log(req.body.points)
+
     const swing = await Swing.create({
         user: req.body.user,
         points: req.body.points
