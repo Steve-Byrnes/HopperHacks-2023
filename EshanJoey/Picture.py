@@ -186,6 +186,8 @@ def task():
         if path[0]['time'] < path[1]['time']:
             myAngle += 180
         move_ball(power, myAngle)
+        # tracking.store_swing('', path[0]['x'], path[0]['y'], path[1]['x'], 
+        #     path[1]['y'],tracking.get_time_change(path[0], path[1]), myAngle, power)
         
         
 window.after(1000, task)

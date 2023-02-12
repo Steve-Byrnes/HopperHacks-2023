@@ -4,9 +4,7 @@ import time
 import math
 from datetime import datetime
 import cvzone
-import threading
-import dbConnect
-
+import tracking.dbConnect as dbConnect
 class tracking:
 
     cap = cv2.VideoCapture(0)
