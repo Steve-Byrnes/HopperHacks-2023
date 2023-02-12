@@ -113,10 +113,17 @@ class tracking:
 
     @classmethod
     def get_duration(cls, trajectory):
-        maxTime = trajectory[0]['time']
-        minTime = trajectory[0]['time']
-        maxT = trajectory[0]['triangle']
-        minT = trajectory[0]['triangle']
+        if len(trajectory) > 0:
+
+            maxTime = trajectory[0]['time']
+            minTime = trajectory[0]['time']
+            maxT = trajectory[0]['triangle']
+            minT = trajectory[0]['triangle']
+        else:
+            maxTime = 0
+            minTime = 0
+            maxT = 0
+            minT = 0
 
         startX = 0
         startY = 0

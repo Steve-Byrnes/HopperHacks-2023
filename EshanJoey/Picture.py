@@ -139,7 +139,7 @@ def move_ball(power:float, angle:int) -> None:
         score += 1
         canvas.itemconfig(scoreText, text= f"Score: {score}")
 
-def myGetAngle(data, width):
+def getAngle(data, width):
     value = abs(data[1]['x']-data[0]['x'])
     print("startX:", data[0]['x'])
     print("endX:", data[1]['x'])
@@ -157,6 +157,10 @@ def myGetAngle(data, width):
     angle = (math.acos(value/(width*.65)) * 180) / 3.1415
     return angle
 
+def getPower(path):
+    power = (abs(path[0]['tri'] - path[1]['tri']) / abs(int(datetime.strptime(path[0]['time'], '%H:%M:%S.%f').microsecond) - int(datetime.strptime(path[1]['time'], '%H:%M:%S.%f').microsecond))) * 10000
+    return power
+
 def task():
     while True:
         width, track_data = tracking.trackHit()
@@ -166,11 +170,11 @@ def task():
         #print(path)
         if abs(path[0]['tri'] - path[1]['tri']) < 4:
             continue
-        myAngle = myGetAngle(path, width)
+        myAngle = getAngle(path, width)
         print("traingle Ratio: ", abs(path[0]['tri'] - path[1]['tri']))
         print("t1",path[0]['time'])
         print("t2",path[1]['time'])
-        power = (abs(path[0]['tri'] - path[1]['tri']) / abs(int(datetime.strptime(path[0]['time'], '%H:%M:%S.%f').microsecond) - int(datetime.strptime(path[1]['time'], '%H:%M:%S.%f').microsecond))) * 10000
+        power = getPower(path)
         print("power:", power)
         #print("My Angle: ",myAngle)
         #angle = (-1* tracking.get_angle(path[0], path[1])) + 90
