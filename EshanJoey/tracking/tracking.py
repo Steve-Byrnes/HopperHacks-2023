@@ -15,6 +15,11 @@ class tracking:
                         min_detection_confidence=0.3, #origin .5 and .8
                         min_tracking_confidence=0.6)
     mpDraw = mp.solutions.drawing_utils
+    mp_face_detection = mp.solutions.face_detection
+    earL, earR, eyeL, eyeR, nose, mouth = [], [], [], [], [], []
+
+
+
 
     # pTime = 0
     # cTime = 0
@@ -49,8 +54,24 @@ class tracking:
             img = cv2.flip(img, 1)
             imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = cls.hands.process(imgRGB)
+            face_detection = cls.mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5)
+            resultsFaces = face_detection.process(imgRGB)
+
             # print(results.multi_hand_landmarks)
             image_height, image_width, _ = img.shape
+
+            # faces?
+            if resultsFaces.detections:
+                nose = [resultsFaces.detections[0].location_data.relative_keypoints[2].x * image_width, resultsFaces.detections[0].location_data.relative_keypoints[2].y * image_height]
+                flamingo_path = 'EshanJoey/tracking/madhatter-removebg-preview.png'
+                flamingo = cv2.imread(flamingo_path, cv2.IMREAD_UNCHANGED)
+                print(nose)
+                try:
+                    img = cvzone.overlayPNG(img, flamingo, [int(nose[0]), int(nose[1])])
+                except:
+                    print()
+                    pass
+            
             # num of hands
             if results.multi_hand_landmarks:
                 # num of points for hand
