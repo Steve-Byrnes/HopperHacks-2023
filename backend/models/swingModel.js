@@ -1,13 +1,10 @@
 const mongoose = require('mongoose')
 
 const swingSchema = mongoose.Schema({
-    user: String,
-    points: [{
-        time: String,
-        triangle: String,
-        x: String,
-        y: String
-    }],
+    text: {
+        type: String,
+        required: [true, 'Please add some text']
+    }
 }, {
     timestamps: true
 })
