@@ -3,6 +3,8 @@ from Hoop import Hoop
 from PIL import ImageTk
 import time
 import math
+
+from tracking.tracking import tracking
 window = tk.Tk()
 
 canvas = tk.Canvas(window, bg="dark green", height=700, width=800)
@@ -156,7 +158,9 @@ def move_ball(power:float, angle:int) -> None:
 def task():
     while True:
         power = float(input("power:"))
-        angle = float(input("angle:"))
+        track_data = tracking.trackHit()
+        path = tracking.get_duration(track_data)
+        angle = tracking.get_angle(path[0], path[1])
         if orientation == -1:
             angle += 180
         move_ball(power, angle)

@@ -86,7 +86,7 @@ class tracking:
                         # else:
                         #     circle_image = cv2.circle(img, (cx,cy), 60, (0,0,0), cv2.FILLED)
 
-                        flamingo_path = 'flamingo.png'
+                        flamingo_path = 'EshanJoey/tracking/flamingo.png'
                         flamingo = cv2.imread(flamingo_path, cv2.IMREAD_UNCHANGED)
 
                         try:
