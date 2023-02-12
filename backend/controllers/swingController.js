@@ -16,10 +16,48 @@ const getSwings = asyncHandler(async (req, res) => {
 // Access: Private
 const setSwing = asyncHandler(async (req, res) => {
 
-    console.log(req.body.text)
+    if(!req.body.user) {
+        res.status(400)
+        throw new Error('Please add a user')
+    }
+    if(!req.body.start_x) {
+        res.status(400)
+        throw new Error('Please add a start_x')
+    }
+    if(!req.body.start_y) {
+        res.status(400)
+        throw new Error('Please add a start_y')
+    }
+    if(!req.body.end_x) {
+        res.status(400)
+        throw new Error('Please add an end_x')
+    }
+    if(!req.body.end_y) {
+        res.status(400)
+        throw new Error('Please add an end_y')
+    }
+    if(!req.body.duration) {
+        res.status(400)
+        throw new Error('Please add a duration')
+    }
+    if(!req.body.angle) {
+        res.status(400)
+        throw new Error('Please add an angle')
+    }
+    if(!req.body.power) {
+        res.status(400)
+        throw new Error('Please add a power')
+    }
 
     const swing = await Swing.create({
-        text: req.body.text
+        user: req.body.user,
+        start_x: req.body.start_x,
+        start_y: req.body.start_y,
+        end_x: req.body.end_x,
+        end_y: req.body.end_y,
+        duration: req.body.duration,
+        angle: req.body.angle,
+        power: req.body.power
     })
     res.status(200).json(swing)
 })
