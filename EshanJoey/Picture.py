@@ -160,7 +160,8 @@ def task():
         power = float(input("power:"))
         track_data = tracking.trackHit()
         path = tracking.get_duration(track_data)
-        angle = tracking.get_angle(path[0], path[1])
+        angle = (1* tracking.get_angle(path[0], path[1])) + 90
+        print("Angle:", angle)
         if orientation == -1:
             angle += 180
         move_ball(power, angle)
