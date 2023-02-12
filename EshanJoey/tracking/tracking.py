@@ -103,7 +103,8 @@ class tracking:
                         trajectory.append(hit_dic)
 
             # cv2.putText(img, 'Hello Nate' , (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
-
+            cv2.namedWindow("Resized_Window", cv2.WINDOW_NORMAL)
+            cv2.resizeWindow("Resized_Window", 200, 200)
             cv2.imshow("Image", img)
             cv2.waitKey(1)
 
