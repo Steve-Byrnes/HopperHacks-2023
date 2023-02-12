@@ -3,6 +3,7 @@ from Hoop import Hoop
 from PIL import ImageTk
 import time
 import math
+from datetime import datetime
 
 from tracking.tracking import tracking
 window = tk.Tk()
@@ -147,23 +148,31 @@ def myGetAngle(data, width):
     print("val:", value)
     
         
-    if value > (width*.75):
-        value = width*.75
+    if value > (width*.65):
+        value = width*.65
     if (data[1]['x'] > data[0]['x']):
         value *= -1
     # if data[0]['time'] > data[1]['time']:
     #     value *= -1
-    angle = (math.acos(value/(width*.75)) * 180) / 3.1415
+    angle = (math.acos(value/(width*.65)) * 180) / 3.1415
     return angle
 
 def task():
     while True:
-        power = float(input("power:"))
         width, track_data = tracking.trackHit()
         path = tracking.get_duration(track_data)
-        print(path)
+        if path[0]['x'] == 0 or path[1]['x'] ==0:
+            continue
+        #print(path)
+        if abs(path[0]['tri'] - path[1]['tri']) < 4:
+            continue
         myAngle = myGetAngle(path, width)
-        print("My Angle: ",myAngle)
+        print("traingle Ratio: ", abs(path[0]['tri'] - path[1]['tri']))
+        print("t1",path[0]['time'])
+        print("t2",path[1]['time'])
+        power = (abs(path[0]['tri'] - path[1]['tri']) / abs(int(datetime.strptime(path[0]['time'], '%H:%M:%S.%f').microsecond) - int(datetime.strptime(path[1]['time'], '%H:%M:%S.%f').microsecond))) * 10000
+        print("power:", power)
+        #print("My Angle: ",myAngle)
         #angle = (-1* tracking.get_angle(path[0], path[1])) + 90
         #print("Angle:", angle)
         if path[0]['time'] < path[1]['time']:
