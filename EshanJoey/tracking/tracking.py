@@ -13,8 +13,8 @@ class tracking:
     mpHands = mp.solutions.hands
     hands = mpHands.Hands(static_image_mode=False,
                         max_num_hands=2,
-                        min_detection_confidence=0.5,
-                        min_tracking_confidence=0.8)
+                        min_detection_confidence=0.3, #origin .5 and .8
+                        min_tracking_confidence=0.6)
     mpDraw = mp.solutions.drawing_utils
 
     # pTime = 0
@@ -51,13 +51,13 @@ class tracking:
             imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = cls.hands.process(imgRGB)
             # print(results.multi_hand_landmarks)
-
+            image_height, image_width, _ = img.shape
             # num of hands
             if results.multi_hand_landmarks:
                 # num of points for hand
                 for handLms in results.multi_hand_landmarks:
 
-                    middleX = handLms.landmark[cls.mpHands.HandLandmark.MIDDLE_FINGER_TIP].x
+                    middleX = handLms.landmark[cls.mpHands.HandLandmark.MIDDLE_FINGER_TIP].x 
                     middleY = handLms.landmark[cls.mpHands.HandLandmark.MIDDLE_FINGER_TIP].y
                     middle = [middleX, middleY]
 
@@ -86,7 +86,7 @@ class tracking:
                         # else:
                         #     circle_image = cv2.circle(img, (cx,cy), 60, (0,0,0), cv2.FILLED)
 
-                        flamingo_path = 'flamingo.png'
+                        flamingo_path = 'EshanJoey/tracking/flamingo.png'
                         flamingo = cv2.imread(flamingo_path, cv2.IMREAD_UNCHANGED)
 
                         try:
@@ -97,9 +97,10 @@ class tracking:
                         hit_dic = {
                             "time": datetime.now().strftime("%H:%M:%S"),
                             "triangle": (cls.perimeter(middle, pinky, thumb) * 10) **2,
-                            "x": ballX,
-                            "y": ballY
+                            "x": ballX * image_width,
+                            "y": ballY * image_height
                         }
+                        #print((cls.perimeter(middle, pinky, thumb) * 10) **2)
                         trajectory.append(hit_dic)
 
             # cv2.putText(img, 'Hello Nate' , (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
@@ -108,7 +109,7 @@ class tracking:
             cv2.imshow("Image", img)
             cv2.waitKey(1)
 
-        return trajectory
+        return image_width, trajectory
 
     @classmethod
     def get_duration(cls, trajectory):
@@ -123,12 +124,12 @@ class tracking:
         endY = 0
 
         for d in trajectory:
-            if d['triangle'] > maxT:
+            if d['triangle'] > maxT and d['x'] > 0:
                 maxT = d['triangle']
                 maxTime = d['time']
                 endX = d['x']
                 endY = d['y']
-            elif d['triangle'] < minT:
+            elif d['triangle'] < minT and d['x'] > 0:
                 minT = d['triangle']
                 minTime = d['time']
                 startX = d['x']
@@ -139,11 +140,13 @@ class tracking:
         return [{
                 'time': minTime,
                 'x': startX,
-                'y': startY}, 
+                'y': startY,
+                'tri': minT },
                 {
                 'time': maxTime,
                 'x': endX,
-                'y': endY}]
+                'y': endY, 
+                'tri': maxT}]
 
     @classmethod
     def get_angle(cls, start_point, end_point):

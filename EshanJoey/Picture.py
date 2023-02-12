@@ -154,17 +154,28 @@ def move_ball(power:float, angle:int) -> None:
         score += 1
         canvas.itemconfig(scoreText, text= f"Score: {score}")
 
+def myGetAngle(data, width):
+    value = abs(data[1]['x']-data[0]['x'])
+    print("startX:", data[0]['x'])
+    print("endX:", data[1]['x'])
+    # if (data[1]['x'] < data[0]['x']):
+    #     value *= -1
+    angle = (math.acos(value/width/2) * 180) / 3.1415
+    return angle
 
 def task():
     while True:
         power = float(input("power:"))
-        track_data = tracking.trackHit()
+        width, track_data = tracking.trackHit()
         path = tracking.get_duration(track_data)
-        angle = (1* tracking.get_angle(path[0], path[1])) + 90
-        print("Angle:", angle)
+        print(path)
+        myAngle = myGetAngle(path, width)
+        print("My Angle: ",myAngle)
+        #angle = (-1* tracking.get_angle(path[0], path[1])) + 90
+        #print("Angle:", angle)
         if orientation == -1:
-            angle += 180
-        move_ball(power, angle)
+            myAngle += 180
+        move_ball(power, myAngle)
         
         
 window.after(1000, task)
