@@ -4,7 +4,7 @@ def getSwings():
     x = requests.get('http://172.24.196.228:8080/api/swings')
     return x.text
 
-def setSwing(user, body_dic):
+def setSwing(body_dic):
     # body_dic = {
     #         'user': user,
     #         'start_x': start_x,
