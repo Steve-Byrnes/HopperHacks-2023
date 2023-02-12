@@ -4,7 +4,7 @@ import time
 import math
 from datetime import datetime
 import cvzone
-import tracking.dbConnect as dbConnect
+from tracking.dbConnect import dbConnect
 class tracking:
 
     cap = cv2.VideoCapture(0)
@@ -41,7 +41,7 @@ class tracking:
 
     @classmethod
     def trackHit(cls):
-        t_end = time.time() + 5
+        t_end = time.time() + 2
         trajectory = []
 
         while time.time() < t_end:
@@ -102,10 +102,15 @@ class tracking:
                         #print((cls.perimeter(middle, pinky, thumb) * 10) **2)
                         trajectory.append(hit_dic)
 
-            # cv2.putText(img, 'Hello Nate' , (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
-            cv2.namedWindow("Resized_Window", cv2.WINDOW_NORMAL)
-            cv2.resizeWindow("Resized_Window", 200, 200)
-            cv2.imshow("Image", img)
+            cv2.putText(img, 'Move Ball with Hand!' , (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
+            # cv2.resizeWindow(img, height=500, width=500)
+
+            scale_percent = 40 # percent of original size
+            im_w = int(img.shape[1] * scale_percent / 100)
+            im_h = int(img.shape[0] * scale_percent / 100)
+            resized = cv2.resize(img, (im_w, im_h))
+            cv2.imshow("Camera Feed", resized)
+            cv2.moveWindow("Camera Feed", 850, 30)
             cv2.waitKey(1)
 
         return image_width, trajectory
@@ -200,10 +205,6 @@ class tracking:
         }
         try:
             dbConnect.setSwing(body)
+            print('Successfully queried db')
         except:
             print('Error: Cannot query database')
-        
-
-
-
-        
