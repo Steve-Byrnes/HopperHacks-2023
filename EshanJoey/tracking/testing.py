@@ -1,4 +1,5 @@
 from tracking import tracking
+import dbConnect
 
 track_data = tracking.trackHit()
 path = tracking.get_duration(track_data)

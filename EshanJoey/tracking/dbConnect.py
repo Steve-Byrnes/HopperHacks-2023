@@ -29,7 +29,7 @@ def updateSwing(id, update_dic):
     #         'angle': angle,
     #         'power': power
     #     }
-    x = requests.put('http://172.24.196.228:8080/api/swings', json=update_dic)
+    x = requests.put('http://172.24.196.228:8080/api/swings/{id}', json=update_dic)
     return x.text
 
 def deleteSwing(id):
