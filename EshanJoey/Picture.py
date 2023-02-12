@@ -28,22 +28,6 @@ ballColor = True
 
 score = 0
 scoreText = canvas.create_text(700, 650, text="Score: 0", fill="black", font=('Helvetica 30 bold'))
-orientation = 1
-orientationText = canvas.create_text(135, 120, text="⇩", fill="white", font=('Helvetica 30 bold'))
-def changeOrientation() -> None:
-    global orientation
-    orientation *=-1
-    if orientation == -1:
-        canvas.itemconfig(orientationText, text= "⇧")
-    else:
-        canvas.itemconfig(orientationText, text= "⇩")
-        
-
-btn = tk.Button(window, text='Flip', width=5,
-             height=2, bd='10', command=changeOrientation)
- 
-btn.place(x=65, y=100)
-
 
 def move_ball(power:float, angle:int) -> None: 
     gotPoint = False
@@ -158,9 +142,18 @@ def myGetAngle(data, width):
     value = abs(data[1]['x']-data[0]['x'])
     print("startX:", data[0]['x'])
     print("endX:", data[1]['x'])
-    # if (data[1]['x'] < data[0]['x']):
+    
+    print("width:", width)
+    print("val:", value)
+    
+        
+    if value > (width*.75):
+        value = width*.75
+    if (data[1]['x'] > data[0]['x']):
+        value *= -1
+    # if data[0]['time'] > data[1]['time']:
     #     value *= -1
-    angle = (math.acos(value/width/2) * 180) / 3.1415
+    angle = (math.acos(value/(width*.75)) * 180) / 3.1415
     return angle
 
 def task():
@@ -173,7 +166,7 @@ def task():
         print("My Angle: ",myAngle)
         #angle = (-1* tracking.get_angle(path[0], path[1])) + 90
         #print("Angle:", angle)
-        if orientation == -1:
+        if path[0]['time'] < path[1]['time']:
             myAngle += 180
         move_ball(power, myAngle)
         
